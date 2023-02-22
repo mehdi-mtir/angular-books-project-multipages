@@ -13,8 +13,7 @@ import { BooksModule } from "./books/books.module";
     bootstrap: [AppComponent],
     imports: [
         BrowserModule,
-        AppRoutingModule,
-        BooksModule
+        AppRoutingModule
     ]
 })
 export class AppModule { }

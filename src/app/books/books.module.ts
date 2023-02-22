@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ListBooksComponent } from './list-books/list-books.component';
 import { AddBooksComponent } from './add-books/add-books.component';
 import { EditBooksComponent } from './edit-books/edit-books.component';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -13,10 +14,8 @@ import { EditBooksComponent } from './edit-books/edit-books.component';
     EditBooksComponent
   ],
   imports: [
-    CommonModule
-  ],
-  exports: [
-    ListBooksComponent
+    CommonModule,
+    RouterModule
   ]
 })
 export class BooksModule { }

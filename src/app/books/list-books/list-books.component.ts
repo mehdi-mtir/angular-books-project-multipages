@@ -17,7 +17,13 @@ export class ListBooksComponent implements OnInit, OnDestroy {
 
   deleteBook(id : number){
     if(confirm("Êtes-vous sûre de vouloir supprimer le livre?")){
-      this.bookService.deleteBook(id);
+      this.bookService.deleteBook(id).subscribe(
+        data =>{
+          this.bookService.getBooks().subscribe(
+            books => this.books = books
+          );
+        }
+      )
       console.log(this.bookService.getBooks());
     }
   }
@@ -31,7 +37,9 @@ export class ListBooksComponent implements OnInit, OnDestroy {
     this.subscription = this.bookService.booksUpdated.subscribe(
       books => this.books = books
     );
-    this.books = this.bookService.getBooks();
+    this.bookService.getBooks().subscribe(
+      books => this.books = books
+    );
 
   }
 

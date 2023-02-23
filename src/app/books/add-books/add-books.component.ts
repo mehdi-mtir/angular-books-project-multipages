@@ -17,14 +17,17 @@ export class AddBooksComponent implements OnInit {
 
   addBook(f : NgForm){
     //console.log(f);
-    const newBook = new Book(
-      this.bookService.getLastId() + 1,
-      f.value.titre,
-      f.value.auteur,
-      f.value.prix
-    )
-    this.bookService.addBook(newBook);
-    this.router.navigate(['/books']);
+    const newBook = {
+      titre : f.value.titre,
+      auteur : f.value.auteur,
+      prix : f.value.prix
+    }
+    this.bookService.addBook(newBook).subscribe(
+      book=>{
+        console.log(book);
+        this.router.navigate(['/books']);
+      }
+    );
   }
 
   ngOnInit(): void {

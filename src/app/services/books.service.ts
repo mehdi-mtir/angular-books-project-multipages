@@ -1,5 +1,6 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Book } from '../models/book';
 
 @Injectable({
@@ -7,44 +8,65 @@ import { Book } from '../models/book';
 })
 
 export class BooksService {
-  private books = [
-    new Book(1, "The slight edge", "Jeff Olsen", 40),
-    new Book(2, "Power of habits", "Charles Duhigg", 30),
-    new Book(3, "The one thing", "Gary W. Keller", 20)
-  ];
+  private books = [];
+  private baseUrl = "http://localhost:3000";
 
   booksUpdated = new Subject<Book[]>();
 
-  constructor() { }
+  constructor(private http : HttpClient) { }
 
-  getBooks() : Book[]{
-    return [...this.books];
+  getBooks() : Observable<Book[]>{
+    return this.http.get<Book[]>(`${this.baseUrl}/books`)
   }
 
-  getBookById(id : number) : Book{
-    return this.books.find(b=>b.id === id);
+  getBookById(id : number) : Observable<Book>{
+    //return this.books.find(b=>b.id === id);
+    return this.http.get<Book>(`${this.baseUrl}/books/${id}`);
   }
 
-  addBook(book : Book){
-    this.books = [...this.books, book];
+  addBook(book : Object) : Observable<Book>{
+    //this.books = [...this.books, book];
+    console.log(book);
+    const headers = new HttpHeaders({ 'content-type': 'application/json'});
+    const options = {
+      headers: headers
+    };
+    const body = JSON.stringify(book)
+    return(this.http.post<Book>(`${this.baseUrl}/books`, body, options));
   }
 
-  editBook(book : Book){
-    this.books = this.books.map(
+  editBook(book : Book) : Observable<Book>{
+    /*this.books = this.books.map(
       b=>{
         if(b.id === book.id)
           return book;
         else
           return b;
       }
-    )
+    )*/
+    const headers = new HttpHeaders({ 'content-type': 'application/json'});
+    const options = {
+      headers: headers
+    };
+    const body = JSON.stringify({
+      titre : book.titre,
+      auteur : book.auteur,
+      prix : book.prix
+    });
+    return(this.http.put<Book>(`${this.baseUrl}/books/${book.id}`, body, options));
   }
 
-  deleteBook(id : number){
-    this.books = this.books.filter(
+  deleteBook(id : number):Observable<{}>{
+    /*this.books = this.books.filter(
       b=>b.id !== id
     );
-    this.booksUpdated.next(this.books);
+    this.booksUpdated.next(this.books);*/
+    const headers = new HttpHeaders({ 'content-type': 'application/json'});
+    const options = {
+      headers: headers
+    };
+    return this.http.delete(`${this.baseUrl}/books/${id}`, options);
+
   }
 
 

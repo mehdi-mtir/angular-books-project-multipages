@@ -9,8 +9,8 @@ export class UsersService {
 
   private users = [
     new User(1, "Mehdi", "mehdi.mtir@gmail.com", "MHPa$$w0rd"),
-    new User(1, "Salah", "salah@gmail.com", "SLPa$$w0rd"),
-    new User(1, "Sarra", "sarra@gmail.com", "SRPa$$w0rd"),
+    new User(2, "Salah", "salah@gmail.com", "SLPa$$w0rd"),
+    new User(3, "Sarra", "sarra@gmail.com", "SRPa$$w0rd"),
   ];
 
   usersUpdated = new Subject<User[]>();
@@ -41,6 +41,7 @@ export class UsersService {
   }
 
   deleteUser(id : number){
+    //console.log(id);
     this.users = this.users.filter(
       u=>u.id !== id
     );

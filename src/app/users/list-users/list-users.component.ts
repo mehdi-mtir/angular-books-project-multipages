@@ -15,6 +15,7 @@ export class ListUsersComponent implements OnInit {
   constructor(private userService : UsersService) { }
 
   deleteUser(id : number){
+
     if(confirm("Êtes-vous sûre de vouloir supprimer l'utilisateur?")){
       this.userService.deleteUser(id);
       //console.log(this.userService.getUsers());
